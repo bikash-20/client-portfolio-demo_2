@@ -1,36 +1,43 @@
-# Core-Engine Portfolio Architecture & Fluid UI Visualizer
+# High-End Interactive Portfolio Platform
 
-An advanced, production-grade portfolio UI built natively with HTML5, pure CSS3, and modern ECMAScript. The design focuses on browser rendering behavior, mouse-parallax tracking, passive scroll handling, and lightweight component lifecycle management without third-party UI frameworks.
+Academic Term Project for independent practice during 2nd Year, 1st Semester.
 
-## Architectural Intent
+This portfolio is a native-web showcase built with HTML5, CSS3, and vanilla ECMAScript. The goal is to demonstrate performance-first UI engineering, browser rendering awareness, and polished motion design without using a component framework.
 
-The project avoids React, Vue, and similar abstraction layers. It works directly with the DOM lifecycle and critical rendering path so interaction remains lightweight, responsive, and easy to inspect.
+## Academic and Professional Purpose
 
-## Technical Highlights
+- Build a fluid, high-performance portfolio using raw browser APIs
+- Practice advanced CSS token systems, glassmorphism, and responsive layout control
+- Explore scroll state, pointer tracking, reveal animations, and modal lifecycle handling
+- Present a clean, production-minded interface that is easy to inspect and maintain
 
-- Mouse-parallax orbs driven by normalized viewport coordinates
-- Passive scroll listeners to keep scrolling smooth
-- Transform-only animation paths to avoid unnecessary layout work
-- Dynamic project modal hydration using `dataset` values
-- Memory-safe overlay teardown and scroll-state cleanup
-- Tokenized color variables for consistent visual styling
-- Subtle noise texture and gradient layers for depth
+## Core Features
 
-## File Architecture
+- Custom cursor with lagged ring tracking
+- Scroll progress indicator and active navigation sync
+- Three.js-based ambient visual layer
+- Loader overlay with delayed ready state transition
+- Project modal with dynamic content hydration
+- Reveal animations for sections and cards
+- Responsive sidebar navigation and social links
 
-- `index.html` - semantic structure and page sections
-- `styles.css` - token system, layout, responsive rules, and motion styling
-- `script.js` - cursor physics, parallax, modal lifecycle, reveal animation, and progress tracking
-- `package.json` - minimal project metadata and local preview command
-- `package-lock.json` - locked npm metadata for repository scaffolding
-- `.gitignore` - standard local development ignores
+## Technical Stack
 
-## Roadmap
+- HTML5 semantic markup
+- CSS3 custom properties, transforms, backdrop blur, and responsive media queries
+- Vanilla JavaScript for interaction, animation, and DOM updates
+- Google Fonts for display, sans, and mono typography
 
-- Move inline logic to a Vite build pipeline
-- Replace global scroll checks with `IntersectionObserver` pools
-- Add lerp-based orbital motion for smoother background motion
+## File Blueprint
 
-## Summary
+- `index.html` - semantic layout and asset references
+- `styles.css` - design tokens, layout, and motion styling
+- `script.js` - cursor, scroll, modal, and animation logic
+- `package.json` - local preview scripts
+- `package-lock.json` - npm scaffold lockfile
+- `.gitignore` - local development exclusions
 
-This portfolio was built independently to explore browser mechanics, math-driven motion, and production-minded frontend structure. It demonstrates self-directed work, performance awareness, and a clean approach to modern web UI engineering.
+## License
+
+MIT License. Copyright (c) 2026 Monisha Kar Tithi.
+

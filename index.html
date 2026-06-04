@@ -1,234 +1,277 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Monisha Kar Tithi — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Jost:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <!-- LOADER -->
 <div id="loader">
-  <div class="ld-logo">MKT</div>
-  <div class="ld-bar-w"><div class="ld-bar"></div></div>
-  <div class="ld-sub">Initialising 3D Experience…</div>
+  <div class="ld-ring"></div>
+  <div class="ld-name grad-txt">Monisha Kar Tithi</div>
+  <div class="ld-sub">Portfolio · Loading</div>
 </div>
 
-<!-- WEBGL (Three.js scene) -->
-<canvas id="webgl-canvas"></canvas>
+<!-- SVG defs for CGPA ring gradient -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="cgpaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5D3543"/>
+      <stop offset="50%" style="stop-color:#785964"/>
+      <stop offset="100%" style="stop-color:#BCABB0"/>
+    </linearGradient>
+  </defs>
+</svg>
 
-<!-- TRAIL + CURSORS -->
-<canvas id="trail-canvas"></canvas>
+<!-- WEBGL + TRAIL + CURSORS + PROGRESS -->
+<canvas id="webgl"></canvas>
+<canvas id="trail"></canvas>
 <div id="cur"></div>
 <div id="cur-ring"></div>
-
-<!-- SCROLL PROGRESS -->
 <div id="prog"></div>
 
-<!-- PROJECT POPUP MODAL -->
+<!-- POPUP -->
 <div id="popup">
-  <div class="popup-inner">
-    <img class="popup-img" id="popup-img" src="" alt="">
-    <div class="popup-body">
-      <div class="popup-title" id="popup-title"></div>
-      <div class="popup-desc" id="popup-desc"></div>
+  <div class="pi">
+    <img id="pop-img" src="" alt="">
+    <div class="pi-body">
+      <div class="pi-title" id="pop-title"></div>
+      <div class="pi-desc"  id="pop-desc"></div>
     </div>
-    <button class="popup-close" onclick="closePopup()">✕</button>
+    <button class="pc2" onclick="closePopup()">✕</button>
   </div>
 </div>
 
-<!-- ════════ SIDEBAR ════════ -->
-<aside class="sidebar">
-  <div class="av"><img id="pi" src="" alt="Monisha"></div>
-  <div class="sn">Monisha Kar Tithi</div>
-  <div class="sr">CS Student · Developer</div>
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-mark">
+    <div class="sb-dot">MK</div>
+    <span class="sb-nm">Monisha Kar Tithi</span>
+  </div>
   <div class="nav-wrap">
-    <div id="nav-hl"></div>
-    <nav class="nav-pills" id="navPills">
-      <a href="#hero"     class="nav-pill active" data-idx="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
-      <a href="#about"    class="nav-pill" data-idx="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>About</a>
-      <a href="#skills"   class="nav-pill" data-idx="2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Skills</a>
-      <a href="#research" class="nav-pill" data-idx="3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Research</a>
-      <a href="#projects" class="nav-pill" data-idx="4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>Projects</a>
-      <a href="#contact"  class="nav-pill" data-idx="5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact</a>
+    <div id="hl"></div>
+    <nav class="nl" id="navList">
+      <a href="#hero"      class="np active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="np-lbl">Home</span>
+      </a>
+      <a href="#about"     class="np">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span class="np-lbl">About</span>
+      </a>
+      <a href="#education" class="np">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <span class="np-lbl">Education</span>
+      </a>
+      <a href="#skills"    class="np">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span class="np-lbl">Skills</span>
+      </a>
+      <a href="#research"  class="np">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="np-lbl">Research</span>
+      </a>
+      <a href="#projects"  class="np">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+        <span class="np-lbl">Projects</span>
+      </a>
+      <a href="#contact"   class="np">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span class="np-lbl">Contact</span>
+      </a>
     </nav>
   </div>
-  <div class="sd"></div>
-  <button class="tbtn" onclick="toggleTheme()">
-    <div class="knob"></div><span id="thl">Dark Mode</span>
-  </button>
-  <div class="socrow">
-    <a href="https://www.facebook.com/monisha.kar.965" target="_blank" class="soc">fb</a>
-    <a href="https://www.linkedin.com/in/monisha-kar-tithi-607a07368/" target="_blank" class="soc">in</a>
-    <a href="mailto:monishakar965@gmail.com" class="soc">✉</a>
-    <a href="tel:+8801307482086" class="soc">☎</a>
+  <div class="sb-foot">
+    <a class="ss" href="https://www.facebook.com/monisha.kar.965" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      <span class="ss-lbl">Facebook</span>
+    </a>
+    <a class="ss" href="https://www.linkedin.com/in/monisha-kar-tithi-607a07368/" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      <span class="ss-lbl">LinkedIn</span>
+    </a>
+    <a class="ss" href="mailto:monishakar965@gmail.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <span class="ss-lbl">Email</span>
+    </a>
   </div>
 </aside>
 
-<!-- ════════ MAIN ════════ -->
+<!-- ════ MAIN ════ -->
 <main class="main">
 
   <!-- HERO -->
   <section class="hero" id="hero">
-    <div class="pc pc1" data-p=".04"></div>
-    <div class="pc pc2" data-p=".07"></div>
-    <div class="pc pc3" data-p=".05"></div>
-    <div class="hi">
-      <div class="eyb">Hello, I'm</div>
-      <h1 class="hh">Monisha Kar<br><em>Tithi</em></h1>
-      <div class="tww"><span class="twp">I am a</span><span id="tw"></span></div>
-      <p class="hbio">A dedicated computer science student with a strong foundation in programming, algorithms, and software development. Building practical, user-centered solutions while continuously pushing technical boundaries.</p>
-      <div class="hbtns">
-        <a href="#projects" class="bmag bfill" data-magnetic><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg><span>View Projects</span></a>
-        <a href="#contact"  class="bmag bout" data-magnetic><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>Contact Me</span></a>
-        <a href="#" class="bmag bout" data-magnetic download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Download Resume</span></a>
+    <!-- parallax layers -->
+    <div class="orb1 para-layer" data-speed="-0.08"></div>
+    <div class="orb2 para-layer" data-speed="-0.05"></div>
+    <div class="orb3 para-layer" data-speed="-0.03"></div>
+
+    <div class="hero-left" data-speed="0.04">
+      <div class="h-tag">CSE Student · 2nd Year</div>
+      <div class="h-mono">// Computer Science · Bangladesh</div>
+      <h1 class="h-name">
+        <span class="fn">Monisha Kar</span>
+        <span class="ln grad-txt" style="display:block;font-size:clamp(1.8rem,3.2vw,2.8rem);font-family:'Italiana',serif;font-style:italic;-webkit-text-stroke:0;letter-spacing:.14em;">Tithi</span>
+      </h1>
+      <div class="h-role">Algorithm Enthusiast · Problem Solver · Builder</div>
+      <div class="tw-row">
+        <span class="tw-pre">Currently</span>
+        <span id="tw"></span>
+      </div>
+      <div class="h-stats">
+        <div class="hst"><div class="hst-n">2nd</div><div class="hst-l">Year CSE</div></div>
+        <div class="hst"><div class="hst-n">5+</div><div class="hst-l">Languages</div></div>
+        <div class="hst"><div class="hst-n">3.65</div><div class="hst-l">CGPA / 4.00</div></div>
+      </div>
+      <div class="h-btns">
+        <a href="#projects" class="bm bf" data-magnetic><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg><span>View Projects</span></a>
+        <a href="#contact"  class="bm bo" data-magnetic><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>Contact</span></a>
+        <a href="#" class="bm bo" data-magnetic download><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Resume</span></a>
       </div>
     </div>
+
+    <div class="hero-right" data-speed="0.06">
+      <div class="ph-frame" id="tiltEl">
+        <div class="dr dr1"></div><div class="dr dr2"></div><div class="dr dr3"></div>
+        <div class="dd dd1"></div><div class="dd dd2"></div>
+        <img class="ph-img" id="h-img" src="" alt="Monisha Kar Tithi">
+      </div>
+    </div>
+    <div class="sc-hint"><div class="sc-line"></div><div class="sc-t">Scroll</div></div>
   </section>
 
   <!-- ABOUT -->
   <section class="sec" id="about">
-    <div class="sl reveal">Who I Am</div>
-    <h2 class="st reveal">About Me</h2>
-    <div class="agrid">
-      <div class="pw reveal" id="tiltEl">
-        <img class="aimg" id="ai" src="" alt="Monisha Kar Tithi">
+    <div class="sl sec-fade">Who I Am</div>
+    <h2 class="st sec-fade">About <span class="grad-em">Me</span></h2>
+    <div class="ag">
+      <div class="ap sec-fade" id="tiltEl2">
+        <img class="aimg" id="a-img" src="" alt="Monisha">
       </div>
-      <div class="atxt reveal">
-        <p>I'm a 2nd year Computer Science student passionate about turning ideas into working, impactful software. My journey started with curiosity about how computers think — and that curiosity drives me every day.</p>
-        <p>From low-level C/C++ and data structures to hands-on robotics and Arduino projects, I love bridging theory and physical reality. I thrive building things that solve real problems.</p>
-        <p>Beyond code, I'm actively exploring AI, Machine Learning, Data Science, and Embedded Systems — drawn to the intersection of intelligent software and hardware.</p>
+      <div class="at sec-fade">
+        <p>I'm a <strong>2nd year Computer Science student</strong> with a strong foundation in programming, algorithms, and software development. I aim to build practical, user-centered solutions while continuously refining my technical expertise.</p>
+        <div class="bq">"Continuously experimenting with new tools, improving my coding style, and documenting what I learn — every day."</div>
+        <p>From <strong>C/C++ and data structures</strong> to hands-on robotics and Arduino projects, I love bridging theory and physical reality — building things that solve real problems.</p>
+        <p>Beyond code, I'm actively exploring <strong>AI, Machine Learning, Data Science, and Embedded Systems</strong> — drawn to where intelligent software meets hardware.</p>
         <div class="srow">
-          <div class="stat"><div class="snum">2nd</div><div class="slbl">Year CS</div></div>
-          <div class="stat"><div class="snum">5+</div><div class="slbl">Languages</div></div>
-          <div class="stat"><div class="snum">4</div><div class="slbl">Research Areas</div></div>
+          <div><div class="sn">2nd</div><div class="slb">Year CS</div></div>
+          <div><div class="sn">5+</div><div class="slb">Languages</div></div>
+          <div><div class="sn">3.65</div><div class="slb">CGPA</div></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION ★ NEW ★ -->
+  <section class="sec sec-alt" id="education">
+    <div class="sl sec-fade">Academic Background</div>
+    <h2 class="st sec-fade">Education <span class="grad-em">&amp; CGPA</span></h2>
+    <div class="edu-grid">
+      <div class="edu-card gc sec-fade">
+        <span class="edu-icon">🎓</span>
+        <div class="edu-inst">Metropolitan University</div>
+        <div class="edu-dept">Department of Computer Science &amp; Engineering</div>
+        <div class="edu-meta">
+          <div class="edu-row">
+            <span class="edu-key">Degree</span>
+            <span class="edu-val">B.Sc. in CSE</span>
+          </div>
+          <div class="edu-row">
+            <span class="edu-key">Year</span>
+            <span class="edu-val">2nd Year</span>
+          </div>
+          <div class="edu-row">
+            <span class="edu-key">Location</span>
+            <span class="edu-val">Bangladesh 🇧🇩</span>
+          </div>
+        </div>
+        <div class="cgpa-ring-wrap" style="margin-top:22px;">
+          <div class="cgpa-ring">
+            <svg viewBox="0 0 72 72">
+              <circle class="cgpa-track" cx="36" cy="36" r="30"/>
+              <circle class="cgpa-fill" id="cgpaCircle" cx="36" cy="36" r="30"/>
+            </svg>
+            <div class="cgpa-num-inner">
+              <div class="cgpa-big">3.65</div>
+              <div class="cgpa-sm">/ 4.00</div>
+            </div>
+          </div>
+          <div class="cgpa-text-col">
+            <div class="cgpa-label">
+              <strong class="grad-txt" style="font-family:'Italiana',serif;font-size:1.15rem;">CGPA 3.65 / 4.00</strong>
+              Maintained through consistent academic performance and dedication to core CS fundamentals.
+            </div>
+          </div>
+        </div>
+        <div class="edu-badge">Currently Enrolled · 2nd Year</div>
+      </div>
+
+      <div class="edu-card gc sec-fade">
+        <span class="edu-icon">📚</span>
+        <div class="edu-inst">Academic Focus</div>
+        <div class="edu-dept">Core Coursework &amp; Learning Path</div>
+        <div class="edu-meta">
+          <div class="edu-row"><span class="edu-key">Core</span><span class="edu-val">DSA, OOP, C/C++</span></div>
+          <div class="edu-row"><span class="edu-key">Web</span><span class="edu-val">HTML, CSS Basics</span></div>
+          <div class="edu-row"><span class="edu-key">Hardware</span><span class="edu-val">Arduino, Robotics</span></div>
+          <div class="edu-row"><span class="edu-key">Interests</span><span class="edu-val">AI, ML, Data Science</span></div>
+        </div>
+        <div class="edu-badge">Expanding Skills Daily</div>
       </div>
     </div>
   </section>
 
   <!-- SKILLS -->
-  <section class="sec" id="skills" style="background:transparent;">
-    <div class="sk-section-bg reveal">
-      <div class="sk-num" style="position:relative;z-index:1;"><span>01</span> —</div>
-      <div class="sk-heading" style="position:relative;z-index:1;">
-        <b>Skills &amp;</b> <em>Tools</em>
-      </div>
-      <!-- pill tags -->
-      <div class="sk-pills" style="position:relative;z-index:1;">
-        <div class="sk-pill">C</div>
-        <div class="sk-pill">C++</div>
-        <div class="sk-pill">Python</div>
-        <div class="sk-pill">Java</div>
-        <div class="sk-pill">HTML</div>
-        <div class="sk-pill">CSS</div>
-        <div class="sk-pill">Data Structures</div>
-        <div class="sk-pill">Algorithms</div>
-        <div class="sk-pill">Arduino</div>
-        <div class="sk-pill">Robotics</div>
-        <div class="sk-pill">Microsoft Excel</div>
-        <div class="sk-pill">PowerPoint</div>
-      </div>
-      <!-- progress bars -->
-      <div class="sk-bars" style="position:relative;z-index:1;">
-        <div class="sk-bar-row">
-          <span class="sk-bar-label">C / C++</span>
-          <div class="sk-bar-track"><div class="sk-bar-fill" data-w="88"></div></div>
-          <span class="sk-bar-pct">88%</span>
+  <section class="sec" id="skills">
+    <div class="sk-box sec-fade">
+      <div class="sk-in">
+        <div class="sk-num">01 —</div>
+        <div class="sk-hd"><b>Skills &amp;</b> <em>Tools</em></div>
+        <div class="sk-pills">
+          <div class="sp">C</div><div class="sp">C++</div><div class="sp">Python</div>
+          <div class="sp">Java</div><div class="sp">HTML</div><div class="sp">CSS</div>
+          <div class="sp">Data Structures</div><div class="sp">Algorithms</div>
+          <div class="sp">Arduino</div><div class="sp">Robotics</div>
+          <div class="sp">Microsoft Excel</div><div class="sp">PowerPoint</div>
         </div>
-        <div class="sk-bar-row">
-          <span class="sk-bar-label">Python</span>
-          <div class="sk-bar-track"><div class="sk-bar-fill" data-w="72"></div></div>
-          <span class="sk-bar-pct">72%</span>
-        </div>
-        <div class="sk-bar-row">
-          <span class="sk-bar-label">DSA</span>
-          <div class="sk-bar-track"><div class="sk-bar-fill" data-w="80"></div></div>
-          <span class="sk-bar-pct">80%</span>
-        </div>
-        <div class="sk-bar-row">
-          <span class="sk-bar-label">Arduino / IoT</span>
-          <div class="sk-bar-track"><div class="sk-bar-fill" data-w="70"></div></div>
-          <span class="sk-bar-pct">70%</span>
-        </div>
-        <div class="sk-bar-row">
-          <span class="sk-bar-label">HTML / CSS</span>
-          <div class="sk-bar-track"><div class="sk-bar-fill" data-w="68"></div></div>
-          <span class="sk-bar-pct">68%</span>
-        </div>
-        <div class="sk-bar-row">
-          <span class="sk-bar-label">Java</span>
-          <div class="sk-bar-track"><div class="sk-bar-fill" data-w="60"></div></div>
-          <span class="sk-bar-pct">60%</span>
+        <div class="sk-bars">
+          <div class="sk-row"><span class="sk-lb">C / C++</span><div class="sk-tr"><div class="sk-fi" data-w="88"></div></div><span class="sk-pc">88%</span></div>
+          <div class="sk-row"><span class="sk-lb">Python</span><div class="sk-tr"><div class="sk-fi" data-w="72"></div></div><span class="sk-pc">72%</span></div>
+          <div class="sk-row"><span class="sk-lb">DSA</span><div class="sk-tr"><div class="sk-fi" data-w="80"></div></div><span class="sk-pc">80%</span></div>
+          <div class="sk-row"><span class="sk-lb">Arduino / IoT</span><div class="sk-tr"><div class="sk-fi" data-w="70"></div></div><span class="sk-pc">70%</span></div>
+          <div class="sk-row"><span class="sk-lb">HTML / CSS</span><div class="sk-tr"><div class="sk-fi" data-w="68"></div></div><span class="sk-pc">68%</span></div>
+          <div class="sk-row"><span class="sk-lb">Java</span><div class="sk-tr"><div class="sk-fi" data-w="60"></div></div><span class="sk-pc">60%</span></div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- RESEARCH -->
-  <section class="sec" id="research" style="background:transparent;">
-    <div class="rs-section-bg reveal">
-      <div class="rs-num" style="position:relative;z-index:1;"><span>02</span> —</div>
-      <div class="rs-heading" style="position:relative;z-index:1;">
-        <b>Research</b> <em>Interests</em>
-      </div>
-      <!-- research pill tags -->
-      <div class="rs-pills" style="position:relative;z-index:1;">
-        <div class="rs-pill">Artificial Intelligence</div>
-        <div class="rs-pill">Machine Learning</div>
-        <div class="rs-pill">Data Science</div>
-        <div class="rs-pill">Neural Networks</div>
-        <div class="rs-pill">Embedded Systems</div>
-        <div class="rs-pill">IoT</div>
-        <div class="rs-pill">Computer Vision</div>
-        <div class="rs-pill">Reinforcement Learning</div>
-        <div class="rs-pill">Computational Biology</div>
-        <div class="rs-pill">Computational Neuroscience</div>
-        <div class="rs-pill">Systems Biology</div>
-      </div>
-      <!-- research proficiency bars -->
-      <div class="rs-bars" style="position:relative;z-index:1;">
-        <div class="rs-bar-row">
-          <span class="rs-bar-label">Artificial Intelligence</span>
-          <div class="rs-bar-track"><div class="rs-bar-fill" data-w="78"></div></div>
-          <span class="rs-bar-pct">78%</span>
+  <section class="sec sec-alt" id="research">
+    <div class="rs-box sec-fade">
+      <div class="rs-in">
+        <div class="rs-num">02 —</div>
+        <div class="rs-hd"><b>Research</b> <em>Interests</em></div>
+        <div class="rs-pills">
+          <div class="rp">Artificial Intelligence</div><div class="rp">Machine Learning</div>
+          <div class="rp">Data Science</div><div class="rp">Neural Networks</div>
+          <div class="rp">Embedded Systems</div><div class="rp">IoT</div>
+          <div class="rp">Computer Vision</div><div class="rp">Reinforcement Learning</div>
+          <div class="rp">Computational Biology</div><div class="rp">Computational Neuroscience</div>
+          <div class="rp">Systems Biology</div>
         </div>
-        <div class="rs-bar-row">
-          <span class="rs-bar-label">Machine Learning</span>
-          <div class="rs-bar-track"><div class="rs-bar-fill" data-w="72"></div></div>
-          <span class="rs-bar-pct">72%</span>
-        </div>
-        <div class="rs-bar-row">
-          <span class="rs-bar-label">Data Science</span>
-          <div class="rs-bar-track"><div class="rs-bar-fill" data-w="68"></div></div>
-          <span class="rs-bar-pct">68%</span>
-        </div>
-        <div class="rs-bar-row">
-          <span class="rs-bar-label">Embedded Systems</span>
-          <div class="rs-bar-track"><div class="rs-bar-fill" data-w="75"></div></div>
-          <span class="rs-bar-pct">75%</span>
-        </div>
-        <div class="rs-bar-row">
-          <span class="rs-bar-label">Computer Vision</span>
-          <div class="rs-bar-track"><div class="rs-bar-fill" data-w="55"></div></div>
-          <span class="rs-bar-pct">55%</span>
-        </div>
-        <div class="rs-bar-row">
-          <span class="rs-bar-label">Comp. Biology</span>
-          <div class="rs-bar-track"><div class="rs-bar-fill" data-w="50"></div></div>
-          <span class="rs-bar-pct">50%</span>
-        </div>
-        <div class="rs-bar-row">
-          <span class="rs-bar-label">Comp. Neuroscience</span>
-          <div class="rs-bar-track"><div class="rs-bar-fill" data-w="45"></div></div>
-          <span class="rs-bar-pct">45%</span>
-        </div>
-        <div class="rs-bar-row">
-          <span class="rs-bar-label">Systems Biology</span>
-          <div class="rs-bar-track"><div class="rs-bar-fill" data-w="48"></div></div>
-          <span class="rs-bar-pct">48%</span>
+        <div class="rs-bars">
+          <div class="rs-row"><span class="rs-lb">Artificial Intelligence</span><div class="rs-tr"><div class="rs-fi" data-w="78"></div></div><span class="rs-pc">78%</span></div>
+          <div class="rs-row"><span class="rs-lb">Machine Learning</span><div class="rs-tr"><div class="rs-fi" data-w="72"></div></div><span class="rs-pc">72%</span></div>
+          <div class="rs-row"><span class="rs-lb">Data Science</span><div class="rs-tr"><div class="rs-fi" data-w="68"></div></div><span class="rs-pc">68%</span></div>
+          <div class="rs-row"><span class="rs-lb">Embedded Systems</span><div class="rs-tr"><div class="rs-fi" data-w="75"></div></div><span class="rs-pc">75%</span></div>
+          <div class="rs-row"><span class="rs-lb">Computer Vision</span><div class="rs-tr"><div class="rs-fi" data-w="55"></div></div><span class="rs-pc">55%</span></div>
+          <div class="rs-row"><span class="rs-lb">Comp. Neuroscience</span><div class="rs-tr"><div class="rs-fi" data-w="45"></div></div><span class="rs-pc">45%</span></div>
         </div>
       </div>
     </div>
@@ -236,30 +279,29 @@
 
   <!-- PROJECTS -->
   <section class="sec" id="projects">
-    <div class="sl reveal">Work</div>
-    <h2 class="st reveal">Featured Projects</h2>
-    <div class="pjgrid">
-      <!-- Card 1 -->
-      <div class="pjc gc reveal"
-           data-popup-title="Social Network Mini-Model"
-           data-popup-desc="A graph-based simulation of real-world social networks. Each user is a node; friendships are edges. Implements mutual friends detection, shortest path via BFS/Dijkstra, and friend suggestions using common-neighbor heuristics. Built in C++ with custom graph data structures.">
-        <div class="pj-thumb">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='200' viewBox='0 0 600 200'%3E%3Crect width='600' height='200' fill='%23401216'/%3E%3Ccircle cx='120' cy='100' r='22' fill='%23FFF2DA' opacity='.9'/%3E%3Ccircle cx='240' cy='60' r='18' fill='%23BCABB0' opacity='.8'/%3E%3Ccircle cx='300' cy='130' r='20' fill='%239C796C' opacity='.85'/%3E%3Ccircle cx='420' cy='80' r='16' fill='%23FFF2DA' opacity='.7'/%3E%3Ccircle cx='480' cy='140' r='22' fill='%23785964' opacity='.8'/%3E%3Cline x1='120' y1='100' x2='240' y2='60' stroke='%23BCABB0' stroke-width='1.5' opacity='.5'/%3E%3Cline x1='120' y1='100' x2='300' y2='130' stroke='%239C796C' stroke-width='1.5' opacity='.5'/%3E%3Cline x1='240' y1='60' x2='420' y2='80' stroke='%23BCABB0' stroke-width='1.5' opacity='.5'/%3E%3Cline x1='300' y1='130' x2='420' y2='80' stroke='%23FFF2DA' stroke-width='1.5' opacity='.4'/%3E%3Cline x1='420' y1='80' x2='480' y2='140' stroke='%23785964' stroke-width='1.5' opacity='.5'/%3E%3Ctext x='50' y='185' font-family='serif' font-size='11' fill='%23BCABB0' opacity='.6'%3EGraph Theory · BFS · Dijkstra%3C/text%3E%3C/svg%3E" alt="Social Network">
-          <div class="pj-thumb-overlay">
-            <button class="view-btn" onclick="openPopup(this)">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    <div class="sl sec-fade">Work</div>
+    <h2 class="st sec-fade">Featured <span class="grad-em">Project</span></h2>
+    <div class="pj-grid">
+      <div class="pjc gc sec-fade"
+           data-pop-title="Social Network Mini-Model"
+           data-pop-desc="A graph-based simulation of real-world social networks built in C++. Each user is a node and friendships are edges. Implements mutual friends detection via adjacency set intersection, shortest connection path using BFS and Dijkstra's algorithm, and friend suggestions using common-neighbor heuristics.">
+        <div class="pj-th">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='200' viewBox='0 0 600 200'%3E%3Crect width='600' height='200' fill='%230b0809'/%3E%3Ccircle cx='110' cy='100' r='20' fill='%235D3543' opacity='.9'/%3E%3Ccircle cx='230' cy='58' r='16' fill='%23785964' opacity='.8'/%3E%3Ccircle cx='300' cy='128' r='18' fill='%23BCABB0' opacity='.7'/%3E%3Ccircle cx='410' cy='78' r='15' fill='%235D3543' opacity='.75'/%3E%3Ccircle cx='470' cy='138' r='20' fill='%23785964' opacity='.8'/%3E%3Cline x1='110' y1='100' x2='230' y2='58' stroke='%23785964' stroke-width='1.5' opacity='.5'/%3E%3Cline x1='110' y1='100' x2='300' y2='128' stroke='%23BCABB0' stroke-width='1.5' opacity='.4'/%3E%3Cline x1='230' y1='58' x2='410' y2='78' stroke='%23785964' stroke-width='1.5' opacity='.4'/%3E%3Cline x1='300' y1='128' x2='410' y2='78' stroke='%23BCABB0' stroke-width='1.5' opacity='.35'/%3E%3Cline x1='410' y1='78' x2='470' y2='138' stroke='%235D3543' stroke-width='1.5' opacity='.5'/%3E%3Ctext x='44' y='185' font-family='monospace' font-size='10' fill='%23785964' opacity='.6'%3EGraph Theory · BFS · Dijkstra · C++%3C/text%3E%3C/svg%3E" alt="">
+          <div class="pj-ov">
+            <button class="vb" onclick="openPopup(this)">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               View Details
             </button>
           </div>
         </div>
         <div class="pj-body">
-          <div class="pj-badge">🚧 In Progress</div>
+          <div class="pbadge">🚧 In Progress</div>
           <div class="pjt">Social Network<br>Mini-Model</div>
           <p class="pjd">Graph-based social network simulation with mutual friends, shortest path, and friend suggestion algorithms.</p>
           <ul class="fl">
             <li>Each user is a node; friendship is a weighted edge</li>
             <li>Mutual friends via adjacency set intersection</li>
-            <li>Shortest path using BFS &amp; Dijkstra's algorithm</li>
+            <li>Shortest path — BFS &amp; Dijkstra's algorithm</li>
             <li>Friend suggestions via common-neighbor heuristics</li>
           </ul>
           <div class="tags">
@@ -268,53 +310,36 @@
           </div>
         </div>
       </div>
-
-      <!-- Card 2 — placeholder future project -->
-      <div class="pjc gc reveal"
-           data-popup-title="Arduino Smart Sensor System"
-           data-popup-desc="An embedded systems project using Arduino to build a smart environmental monitoring station. Reads temperature, humidity, and light sensors and displays real-time data on an LCD screen with alert LEDs. Built to explore IoT foundations and real-time systems.">
-        <div class="pj-thumb">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='200' viewBox='0 0 600 200'%3E%3Crect width='600' height='200' fill='%235D3543'/%3E%3Crect x='180' y='50' width='240' height='100' rx='8' fill='%23401216' stroke='%239C796C' stroke-width='1.5'/%3E%3Ccircle cx='120' cy='90' r='8' fill='%23FFF2DA' opacity='.8'/%3E%3Ccircle cx='120' cy='120' r='8' fill='%239C796C' opacity='.7'/%3E%3Cline x1='128' y1='90' x2='180' y2='90' stroke='%23BCABB0' stroke-width='1.2' opacity='.6'/%3E%3Cline x1='128' y1='120' x2='180' y2='110' stroke='%23BCABB0' stroke-width='1.2' opacity='.6'/%3E%3Ccircle cx='480' cy='90' r='8' fill='%23785964' opacity='.8'/%3E%3Ccircle cx='480' cy='120' r='8' fill='%23FFF2DA' opacity='.7'/%3E%3Cline x1='420' y1='85' x2='472' y2='88' stroke='%23BCABB0' stroke-width='1.2' opacity='.6'/%3E%3Cline x1='420' y1='115' x2='472' y2='120' stroke='%23BCABB0' stroke-width='1.2' opacity='.6'/%3E%3Ctext x='215' y='108' font-family='monospace' font-size='13' fill='%23BCABB0'%3EARDUINO UNO%3C/text%3E%3Ctext x='50' y='185' font-family='serif' font-size='11' fill='%23BCABB0' opacity='.6'%3EEmbedded · Arduino · IoT%3C/text%3E%3C/svg%3E" alt="Arduino">
-          <div class="pj-thumb-overlay">
-            <button class="view-btn" onclick="openPopup(this)">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              View Details
-            </button>
-          </div>
-        </div>
-        <div class="pj-body">
-          <div class="pj-badge">🔬 Exploring</div>
-          <div class="pjt">Arduino Smart<br>Sensor System</div>
-          <p class="pjd">Environmental monitoring station with temperature, humidity, and light sensors displaying real-time data on LCD.</p>
-          <ul class="fl">
-            <li>Multi-sensor data acquisition &amp; display</li>
-            <li>Real-time LCD readout and LED alerts</li>
-            <li>Serial monitor logging for data analysis</li>
-          </ul>
-          <div class="tags">
-            <span class="tag">Arduino</span><span class="tag">C</span>
-            <span class="tag">IoT</span><span class="tag">Embedded</span>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section class="sec" id="contact">
-    <div class="sl reveal">Reach Out</div>
-    <h2 class="st reveal">Get In Touch</h2>
-    <div class="cgrid">
-      <a class="cc gc reveal" href="tel:+8801307482086"><div class="cci"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.19 12.9 19.79 19.79 0 0 1 1.08 4.18 2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="ccl">Phone</div><div class="ccv">+880 1307 482086</div></div></a>
-      <a class="cc gc reveal" href="mailto:monishakar965@gmail.com"><div class="cci"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="ccl">Email</div><div class="ccv">monishakar965@gmail.com</div></div></a>
-      <a class="cc gc reveal" href="https://www.linkedin.com/in/monisha-kar-tithi-607a07368/" target="_blank"><div class="cci"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div><div><div class="ccl">LinkedIn</div><div class="ccv">monisha-kar-tithi</div></div></a>
-      <a class="cc gc reveal" href="https://www.facebook.com/monisha.kar.965" target="_blank"><div class="cci"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div><div><div class="ccl">Facebook</div><div class="ccv">monisha.kar.965</div></div></a>
+  <section class="sec sec-alt" id="contact">
+    <div class="sl sec-fade">Reach Out</div>
+    <h2 class="st sec-fade">Get In <span class="grad-em">Touch</span></h2>
+    <div class="cg">
+      <a class="cc gc sec-fade" href="tel:+8801307482086">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.19 12.9 19.79 19.79 0 0 1 1.08 4.18 2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div><div class="cl">Phone</div><div class="cv">+880 1307 482086</div></div>
+      </a>
+      <a class="cc gc sec-fade" href="mailto:monishakar965@gmail.com">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div><div class="cl">Email</div><div class="cv">monishakar965@gmail.com</div></div>
+      </a>
+      <a class="cc gc sec-fade" href="https://www.linkedin.com/in/monisha-kar-tithi-607a07368/" target="_blank">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+        <div><div class="cl">LinkedIn</div><div class="cv">monisha-kar-tithi</div></div>
+      </a>
+      <a class="cc gc sec-fade" href="https://www.facebook.com/monisha.kar.965" target="_blank">
+        <div class="ci"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+        <div><div class="cl">Facebook</div><div class="cv">monisha.kar.965</div></div>
+      </a>
     </div>
   </section>
-  <footer><p>© 2025 Monisha Kar Tithi &nbsp;·&nbsp; Crafted with passion &amp; precision</p></footer>
+
+  <footer>© 2025 Monisha Kar Tithi &nbsp;·&nbsp; Computer Science · Metropolitan University &nbsp;·&nbsp; CGPA 3.65</footer>
 </main>
 
-<!-- THREE.JS CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="script.js"></script>
 </body>

@@ -1,5 +1,5 @@
 {
-  "name": "client-portfolio-demo",
+  "name": "client-portfolio-demo_2",
   "version": "1.0.0",
   "private": true,
   "description": "Static portfolio site for Monisha Kar Tithi.",
@@ -11,3 +11,4 @@
     "node": ">=18"
   }
 }
+
